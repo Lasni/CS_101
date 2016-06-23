@@ -26,4 +26,4 @@ x = 3.14159
 
 rounded_num = x + 0.5
 dot_position = str(rounded_num).find('.')
-print(str(rounded_num)[:dot_position])
+print str(rounded_num)[:dot_position]

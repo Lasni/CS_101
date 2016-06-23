@@ -26,6 +26,6 @@ word = "madam"
 is_palindrome = word.find(word[::-1])
 
 # TESTING
-print(is_palindrome)
+print is_palindrome
 # >>> 0  # outcome if word == "madam"
 # >>> -1 # outcome if word == "madman"

@@ -17,7 +17,7 @@ def get_next_target(page):
 # receives a url and returns the page html
 def get_page(url):
     try:
-        from bs4 import BeautifulSoup
+        from BeautifulSoupTests import BeautifulSoup
         import requests
         response = requests.get(url)
         page = str(BeautifulSoup(response.content))

@@ -22,9 +22,9 @@ replacement = "away from keyboard"
 line = "I will now go to sleep and be AFK until lunch time tomorrow."
 
 # Example 2 # uncomment this to test with different input
-#marker = "EY"
-#replacement = "Eyjafjallajokull"
-#line = "The eruption of the volcano EY in 2010 disrupted air travel in Europe for 6 days."
+# marker = "EY"
+# replacement = "Eyjafjallajokull"
+# line = "The eruption of the volcano EY in 2010 disrupted air travel in Europe for 6 days."
 
 ###
 # YOUR CODE BELOW. DO NOT DELETE THIS LINE
@@ -32,11 +32,11 @@ line = "I will now go to sleep and be AFK until lunch time tomorrow."
 
 occurrence = line.find(marker)
 before = line[:occurrence]
-after = line[len(before)+len(marker):]
+after = line[len(before) + len(marker):]
 replaced = before + replacement + after
 
-print(replaced)
+print replaced
 # Example 1 output should be:
-#>>> I will now go to sleep and be away from keyboard until lunch time tomorrow.
+# >>> I will now go to sleep and be away from keyboard until lunch time tomorrow.
 # Example 2 output should be:
-#>>> The eruption of the volcano Eyjafjallajokull in 2010 disrupted air travel in Europe for 6 days.
+# >>> The eruption of the volcano Eyjafjallajokull in 2010 disrupted air travel in Europe for 6 days.
