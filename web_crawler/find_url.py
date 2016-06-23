@@ -10,5 +10,5 @@ start_quote = page.find('"', start_link)
 end_link = page.find(">", start_link)
 end_quote = page.find('"', start_quote+1)
 
-url = page[start_quote+1: end_quote]
+url = page[start_quote + 1:end_quote]
 print url
