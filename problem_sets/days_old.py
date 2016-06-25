@@ -15,51 +15,93 @@ leap_year = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 def is_leap_year(year):
     return (year % 400 == 0) or (year % 100 != 0 and year % 4 == 0)
 
-
-def days_in_year_born(y1, m1, d1):
-    sum_days = 0
-    if is_leap_year(y1):
-        while m1 <= 12:
-            sum_days += leap_year[m1 - 1]  # need to start from m1-1 because indexing starts from 0, not 1
-            m1 += 1  # from month m1 until (including)month 12
+# SOLUTION 1:
+#
+# def days_in_year_born(y1, m1, d1):
+#     sum_days = 0
+#     if is_leap_year(y1):
+#         while m1 <= 12:
+#             sum_days += leap_year[m1 - 1]  # need to start from m1-1 because indexing starts from 0, not 1
+#             m1 += 1  # from month m1 until (including)month 12
+#     else:
+#         while m1 <= 12:
+#             sum_days += reg_year[m1 - 1]  # need to start from m1-1 because indexing starts from 0, not 1
+#             m1 += 1  # from month m1 until (including)month 12
+#     return sum_days - d1  # minus the day you were born
+#
+#
+# def days_in_year_current(y2, m2, d2):
+#     if is_leap_year(y2):
+#         return 366 - days_in_year_born(y2, m2, d2)
+#     else:
+#         return 365 - days_in_year_born(y2, m2, d2)
+#
+#
+# def days_between(y1, y2):
+#     days = 0
+#     if y1 != y2:
+#         year_after = y1 + 1
+#         while year_after <= y2 - 1:
+#             if is_leap_year(year_after):
+#                 days += 366
+#                 year_after += 1
+#             else:
+#                 days += 365
+#                 year_after += 1
+#         return days
+#     else:
+#         return days
+#
+#
+# def days_between_dates(year1, month1, day1, year2, month2, day2):
+#     if year1 < year2:
+#         return days_in_year_born(year1, month1, day1) + days_in_year_current(year2, month2, day2) + days_between(year1, year2)
+#     else:
+#         if is_leap_year(year2):
+#             return days_in_year_born(year1, month1, day1) - 366 + days_in_year_current(year2, month2, day2)
+#         else:
+#             return days_in_year_born(year1, month1, day1) - 365 + days_in_year_current(year2, month2, day2)
+#
+#
+#
+# SOLUTION 2:
+def next_day(year, month, day):
+    if day == days_in_month(year, month):
+        if month == 12:
+            return year+1, 1, 1
+        else:
+            return year, month+1, 1
     else:
-        while m1 <= 12:
-            sum_days += reg_year[m1 - 1]  # need to start from m1-1 because indexing starts from 0, not 1
-            m1 += 1  # from month m1 until (including)month 12
-    return sum_days - d1  # minus the day you were born
+        return year, month, day+1
 
 
-def days_in_year_current(y2, m2, d2):
-    if is_leap_year(y2):
-        return 366 - days_in_year_born(y2, m2, d2)
+# helper method:
+def date_is_before(year1, month1, day1, year2, month2, day2):
+    if year1 < year2:
+        return True
+    if year1 == year2:
+        if month1 < month2:
+            return True
+        if month1 == month2:
+            return day1 < day2
+    return False
+
+
+def days_in_month(year, month):
+    if is_leap_year(year):
+        return leap_year[month-1]
     else:
-        return 365 - days_in_year_born(y2, m2, d2)
-
-
-def days_between(y1, y2):
-    days = 0
-    if y1 != y2:
-        year_after = y1 + 1
-        while year_after <= y2 - 1:
-            if is_leap_year(year_after):
-                days += 366
-                year_after += 1
-            else:
-                days += 365
-                year_after += 1
-        return days
-    else:
-        return days
+        return reg_year[month-1]
 
 
 def days_between_dates(year1, month1, day1, year2, month2, day2):
-    if year1 < year2:
-        return days_in_year_born(year1, month1, day1) + days_in_year_current(year2, month2, day2) + days_between(year1, year2)
-    else:
-        if is_leap_year(year2):
-            return days_in_year_born(year1, month1, day1) - 366 + days_in_year_current(year2, month2, day2)
-        else:
-            return days_in_year_born(year1, month1, day1) - 365 + days_in_year_current(year2, month2, day2)
+    assert not date_is_before(year2, month2, day2, year1, month1, day1)
+    days = 0
+    while date_is_before(year1, month1, day1, year2, month2, day2):
+        year1, month1, day1 = next_day(year1, month1, day1)
+        days += 1
+    print days
+    return days
 
 
 def test():
