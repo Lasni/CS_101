@@ -46,16 +46,21 @@ def union(lst1, lst2):
             lst1.append(i)
 
 
-# crawls the web starting with the seed_page until reaching the max_pages value
+# crawls the web starting with the seed_page until reaching the max_depth value
 # returns a list of crawled pages
-def crawl_web(seed_page, max_pages):
+def crawl_web(seed_page, max_depth):
     to_crawl = [seed_page]
     crawled = []
-    while to_crawl and len(crawled) < max_pages:
+    next_depth = []
+    depth = 0
+    while to_crawl and depth <= max_depth:
         page = to_crawl.pop()
         if page not in crawled:
-            union(to_crawl, get_all_links(get_page(page)))
+            union(next_depth, get_all_links(get_page(page)))
             crawled.append(page)
+        if not to_crawl:
+            to_crawl, next_depth = next_depth, []
+            depth += 1
     return crawled
 
 
