@@ -46,10 +46,12 @@ def union(lst1, lst2):
             lst1.append(i)
 
 
-def crawl_web(seed_page):
+# crawls the web starting with the seed_page until reaching the max_pages value
+# returns a list of crawled pages
+def crawl_web(seed_page, max_pages):
     to_crawl = [seed_page]
     crawled = []
-    while to_crawl:
+    while to_crawl and len(crawled) < max_pages:
         page = to_crawl.pop()
         if page not in crawled:
             union(to_crawl, get_all_links(get_page(page)))
@@ -59,4 +61,4 @@ def crawl_web(seed_page):
 
 print(get_all_links(get_page("https://xkcd.com/162/")))
 
-print crawl_web("https://xkcd.com/162/")
+print crawl_web("https://xkcd.com/162/", 10)
