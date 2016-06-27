@@ -18,5 +18,3 @@ def greatest(list_of_numbers):
 # >>> 23
 # print greatest([])
 # >>> 0
-
-
