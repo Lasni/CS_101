@@ -1,6 +1,5 @@
-"""
-Find the URL in the page HTML and assign it to a variable
-"""
+
+# Find the URL in the page HTML and assign it to a variable
 
 page = ('<div id="top_bin"><div id="top_content" class="width960">'
         '<div class="udacity float-left"><a href="http://udacity.com">')

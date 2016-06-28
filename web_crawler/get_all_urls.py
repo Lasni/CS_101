@@ -1,6 +1,3 @@
-"""
-Find all URLs in the page html and print them out
-"""
 
 
 # receives a page html and returns next url and the position of the quote after it
