@@ -70,16 +70,14 @@ def crawl_web(seed_page, max_depth):
 
 # index = []  commented out
 def add_to_index(index, keyword, url):
-    if not index:
-        index.append([keyword, [url]])
-    else:
-        for entry in index:
-            if entry[0] == keyword:
-                entry[1].append(url)
-                break
-            else:
-                index.append([keyword, [url]])
-                break
+    for entry in index:
+        if entry[0] == keyword:
+            for pair in entry[1]:
+                if pair[0] == url:
+                    return
+            entry[1].append([url, 0])  # do this only after all the pairs have been checked
+            return
+    index.append([keyword, [[url, 0]]])
 
 
 # splits the content into a list of words and performs add_to_index(...) on each word
@@ -98,3 +96,10 @@ def lookup(index, keyword):
     return []
 
 
+# increments the count for the corresponding url link
+def record_user_click(index, keyword, url):
+    urls = lookup(index, keyword)  # returns a list of lists ([url, count] pairs)
+    if urls:
+        for entry in urls:  # for each pair check if it matches the url
+            if entry[0] == url:
+                entry[1] += 1  # increment the pair's count if it does

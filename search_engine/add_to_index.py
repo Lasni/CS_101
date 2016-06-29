@@ -15,7 +15,7 @@
 
 
 # index = [[entry1], [entry2], [entry3],...]
-# entry = [keyword1, [url1, url2, url3,...]]
+# entry = [keyword1, [url1,count], [url2,count2], [url3,...]]
 # checks if the keyword already exists in the index
 # adds the url if it does
 # adds the entry if it doesn't
@@ -24,17 +24,14 @@ index = []
 
 
 def add_to_index(index, keyword, url):
-    if not index:
-        index.append([keyword, [url]])
-    else:
-        for entry in index:
-            if entry[0] == keyword:
-                entry[1].append(url)
-                break
-            else:
-                index.append([keyword, [url]])
-                break
-
+    for entry in index:
+        if entry[0] == keyword:
+            for pair in entry[1]:
+                if pair[0] == url:
+                    return
+            entry[1].append([url, 0])  # do this only after all the pairs have been checked
+            return
+    index.append([keyword, [[url, 0]]])
 
 # Define a procedure, add_page_to_index,
 # that takes three inputs:
