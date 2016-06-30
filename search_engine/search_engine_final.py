@@ -48,7 +48,7 @@ def crawl_web(seed_page, max_depth):
     crawled = []
     next_depth = []
     depth = 0
-    index = []  # added this
+    index = {}  # added this
     while to_crawl and depth <= max_depth:
         page = to_crawl.pop()
         if page not in crawled:
@@ -67,17 +67,12 @@ def crawl_web(seed_page, max_depth):
 # checks if the keyword already exists in the index
 # adds the url if it does
 # adds the entry if it doesn't
-
-# index = []  commented out
+# Modified to work with a dictionary instead of a list
 def add_to_index(index, keyword, url):
-    for entry in index:
-        if entry[0] == keyword:
-            for pair in entry[1]:
-                if pair[0] == url:
-                    return
-            entry[1].append([url, 0])  # do this only after all the pairs have been checked
-            return
-    index.append([keyword, [[url, 0]]])
+    if keyword in index:
+        index[keyword].append(url)
+    else:
+        index[keyword] = [url]
 
 
 # splits the content into a list of words and performs add_to_index(...) on each word
@@ -89,11 +84,12 @@ def add_page_to_index(index, url, content):
 
 # checks if an entry with the keyword in the index exists and returns the list of urls
 # returns an empty list if nothing is found
+# Modified to work with a dictionary instead of a list
 def lookup(index, keyword):
-    for entry in index:
-        if entry[0] == keyword:
-            return entry[1]
-    return []
+    try:
+        return index[keyword]
+    except:
+        return None
 
 
 # increments the count for the corresponding url link
