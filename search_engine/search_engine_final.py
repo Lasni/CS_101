@@ -99,3 +99,5 @@ def record_user_click(index, keyword, url):
         for entry in urls:  # for each pair check if it matches the url
             if entry[0] == url:
                 entry[1] += 1  # increment the pair's count if it does
+
+
