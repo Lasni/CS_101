@@ -84,18 +84,18 @@ def involved(courses, person):
 print involved(courses, 'Dave')
 # >>> {'apr2012': ['cs101', 'cs387'], 'feb2012': ['cs101']}
 
-# print involved(courses, 'Peter C.')
+print involved(courses, 'Peter C.')
 # >>> {'apr2012': ['cs262'], 'feb2012': ['cs101']}
 
-# print involved(courses, 'Dorina')
+print involved(courses, 'Dorina')
 # >>> {'jan2044': ['cs001']}
 
-# print involved(courses,'Peter')
+print involved(courses, 'Peter')
 # >>> {}
 
-# print involved(courses,'Robotic')
+print involved(courses, 'Robotic')
 # >>> {}
 
-# print involved(courses, '')
+print involved(courses, '')
 # >>> {}
 
