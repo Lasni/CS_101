@@ -14,3 +14,4 @@ print shift('n')
 # >>> o
 print shift('z')
 # >>> a
+

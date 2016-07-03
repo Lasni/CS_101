@@ -93,3 +93,4 @@ def is_offered(courses, course, hexamester):
 
 # print is_offered(courses, 'cs253', 'feb2012')
 # >>> False
+

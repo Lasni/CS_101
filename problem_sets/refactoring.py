@@ -69,3 +69,4 @@ hashtable_update(table, 'JavaScript', 'Brendan Eich')
 hashtable_update(table, 'Python', 'Guido van Rossum')
 print hashtable_lookup(table, 'Python')
 # >>> Guido van Rossum
+
