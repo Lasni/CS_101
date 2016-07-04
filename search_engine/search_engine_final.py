@@ -41,25 +41,25 @@ def union(lst1, lst2):
             lst1.append(i)
 
 
-# crawls the web starting with the seed_page until reaching the max_depth value
-# returns a list of crawled pages
-def crawl_web(seed_page, max_depth):
+# crawls the web starting with the seed_page
+# returns index and graph
+# removed the depth parameter
+# modified in lessons 3 and 6
+def crawl_web(seed_page):
     to_crawl = [seed_page]
     crawled = []
-    next_depth = []
-    depth = 0
-    index = {}  # added this
-    while to_crawl and depth <= max_depth:
+    index = {}  # added in lesson 3
+    graph = {}  # added in lesson 6 / list of urls that a page links to (out_links)
+    while to_crawl:
         page = to_crawl.pop()
         if page not in crawled:
             content = get_page(page)
-            union(next_depth, get_all_links(content))
-            add_page_to_index(index, page, content)  # added this
+            add_page_to_index(index, page, content)  # added in lesson 3
+            out_links = get_all_links(content)  # added in lesson 6
+            graph[page] = out_links  # added in lesson 6
+            union(to_crawl, out_links)
             crawled.append(page)
-        if not to_crawl:
-            to_crawl, next_depth = next_depth, []
-            depth += 1
-    return index  # returned crawled before
+    return index, graph  # returned crawled before
 
 
 # index = [[entry1], [entry2], [entry3],...]
@@ -101,3 +101,29 @@ def record_user_click(index, keyword, url):
                 entry[1] += 1  # increment the pair's count if it does
 
 
+def compute_ranks(graph):
+    d = 0.8  # damping factor
+    numloops = 10  # number of times we're going through the relaxation algorithm
+    npages = len(graph)  # number of pages we can go to from the current page
+
+    # initialize the same rank value for all pages in the beginning
+    ranks = {}
+    for page in graph:
+        ranks[page] = 1.0 / npages
+
+    """relaxation algorithm:"""
+    for i in range(numloops):
+        newranks = {}
+        for page in graph:
+            newrank = (1 - d) / npages
+            for node in graph:  # check for each node in graph if it links to page
+                if page in graph[node]:  # if it does then add its rank value to newrank of the page
+                    newrank += d * (ranks[node] / len(graph[node]))
+            newranks[page] = newrank  # update the ranks for each page
+        ranks = newranks  # update the final ranks
+    return ranks
+
+
+index, graph = crawl_web('https://www.udacity.com/cs101x/urank/index.html')
+ranks = compute_ranks(graph)
+print ranks
