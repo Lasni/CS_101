@@ -37,22 +37,22 @@ def ordered_search(index, ranks, keyword):
     url_list = lookup(index, keyword)
     if not url_list:
         return None
-    return quick_sort(url_list)
+    return quick_sort(url_list, ranks)
 
 
-def quick_sort(data):
-    if len(data) <= 1:
-        return data
+def quick_sort(pages, ranks):
+    if len(pages) <= 1:
+        return pages
     else:
-        pivot = data.pop(0)
-        bigger = []
-        smaller = []
-        for e in range(len(data)):
-            if data[e] > pivot:
-                bigger.append(data[e])
+        pivot = ranks[pages[0]]
+        higher = []
+        lower = []
+        for page in pages[1:]:
+            if ranks[page] > pivot:
+                higher.append(page)
             else:
-                smaller.append(data[e])
-        return quick_sort(bigger) + [pivot] + quick_sort(smaller)
+                lower.append(page)
+        return quick_sort(higher, ranks) + [pages[0]] + quick_sort(lower, ranks)
 
 
 cache = {
