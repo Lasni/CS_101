@@ -133,6 +133,12 @@ def lucky_search(index, ranks, keyword):
     return best_page
 
 
+def ordered_search(index, ranks, keyword):
+    if keyword not in index:
+        return None
+    return sorted(index[keyword], key=lambda e: ranks[e], reverse=True)
+
+
 index, graph = crawl_web('https://www.udacity.com/cs101x/urank/index.html')
 ranks = compute_ranks(graph)
-print lucky_search(index, ranks, 'Hummus')
+print ordered_search(index, ranks, 'Hummus')
