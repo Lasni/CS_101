@@ -249,18 +249,13 @@ def get_secondary_connections(network, user):
 #   The number of connections in common (as an integer).
 #   - If user_A or user_B is not in network, return False.
 def count_common_connections(network, user_A, user_B):
-    people_in_common = 0
-    if user_A not in network or user_B not in network:
-        return False
-    else:
-        longer = network[user_B][0]
-        shorter = network[user_A][0]
-        if len(network[user_A][0]) > len(network[user_B][0]):
-            longer, shorter = network[user_A][0], network[user_B][0]
-        for person in longer:
-            if person in shorter:
-                people_in_common += 1
-    return people_in_common
+    if user_A in network and user_B in network:
+        total = 0
+        for connection in network[user_A][0]:
+            if connection in network[user_B][0]:
+                total += 1
+        return total
+    return False
 
 
 # -----------------------------------------------------------------------------
