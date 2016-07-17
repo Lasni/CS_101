@@ -177,11 +177,12 @@ def get_games_liked(network, user):
 #   - If a connection already exists from user_A to user_B, return network unchanged.
 #   - If user_A or user_B is not in network, return False.
 def add_connection(network, user_A, user_B):
-    if user_A not in network and user_B not in network:
+    if user_A not in network or user_B not in network:
         return False
-    elif user_B in network[user_A][0]:
+    if user_B in network[user_A][0]:
         return network
     network[user_A][0].append(user_B)
+    return network
 
 
 # -----------------------------------------------------------------------------
@@ -205,6 +206,7 @@ def add_new_user(network, user, games):
     if user in network:
         return network
     network[user] = [[], games]
+    return network
 
 
 # -----------------------------------------------------------------------------
@@ -226,14 +228,14 @@ def add_new_user(network, user, games):
 #   himself/herself. It is also OK if the list contains a user's primary
 #   connection that is a secondary connection as well.
 def get_secondary_connections(network, user):
-    secondary_connections = {}
-    if user in network:
+    if user not in network:
+        return None
+    else:
         if not network[user][0]:
             return []
         else:
-            for person in network[user][0]:
-                secondary_connections[user] = get_connections(network, person)
-    return secondary_connections[user]
+            return list(set([secondary for primary in get_connections(network, user)
+                             for secondary in get_connections(network, primary)]))
 
 
 # -----------------------------------------------------------------------------
@@ -301,6 +303,7 @@ def find_path_to_friend(network, user_A, user_B):
             return [user_A] + find_path_to_friend(network, connection, user_B)
 
 
+
 # Make-Your-Own-Procedure (MYOP)
 # -----------------------------------------------------------------------------
 # Your MYOP should either perform some manipulation of your network data
@@ -318,17 +321,31 @@ def games_in_common(network, user_A, user_B):
     return list(set(user_A_games) & set(user_B_games))
 
 
-net = create_data_structure(example_input)
-print net
-print get_connections(net, "Debra")
-print get_connections(net, "Mercedes")
-print get_games_liked(net, "John")
-print add_connection(net, "John", "Freda")
-print net
-print add_new_user(net, "Debra", [])
-print add_new_user(net, "Nick", ["Seven Schemers", "The Movie: The Game"])  # True
-print net
-print get_secondary_connections(net, "Mercedes")
-print count_common_connections(net, "Mercedes", "John")
-print find_path_to_friend(net, "John", "Ollie")
-print games_in_common(net, "John", "Nick")
+# net = create_data_structure(example_input)
+# print net
+# print get_connections(net, "Debra")
+# print get_connections(net, "Mercedes")
+# print get_games_liked(net, "John")
+# print add_connection(net, "John", "Freda")
+# print net
+# print add_new_user(net, "Debra", [])
+# print add_new_user(net, "Nick", ["Seven Schemers", "The Movie: The Game"])  # True
+# print net
+# print get_secondary_connections(net, "Mercedes")
+# print count_common_connections(net, "Mercedes", "John")
+# print find_path_to_friend(net, "John", "Ollie")
+# print games_in_common(net, "John", "Nick")
+
+# network = create_data_structure('')
+# network = add_new_user(network,'Alice',[])
+# network = add_connection(network,'Bob','Alice')
+#
+# network = create_data_structure('')
+# get_secondary_connections(network, 'Alice')
+
+# network = create_data_structure(example_input)
+# print get_secondary_connections(network, 'John')
+
+network = create_data_structure(example_input)
+print network
+path = find_path_to_friend(network, 'John', 'Levi')
