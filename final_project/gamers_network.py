@@ -292,7 +292,13 @@ def count_common_connections(network, user_A, user_B):
 #   will only include the arguments network, user_A, and user_B.
 def find_path_to_friend(network, user_A, user_B):
     # your RECURSIVE solution here!
-    return None
+    if user_A not in network or user_B not in network:
+        return None
+    if user_B in get_connections(network, user_A):
+        return [user_A, user_B]
+    for connection in get_connections(network, user_A):
+        if find_path_to_friend(network, connection, user_B):
+            return [user_A] + find_path_to_friend(network, connection, user_B)
 
 
 # Make-Your-Own-Procedure (MYOP)
@@ -304,6 +310,7 @@ def find_path_to_friend(network, user_A, user_B):
 
 # Replace this with your own procedure! You can also uncomment the lines below
 # to see how your code behaves. Have fun!
+
 
 net = create_data_structure(example_input)
 print net
@@ -317,4 +324,4 @@ print add_new_user(net, "Nick", ["Seven Schemers", "The Movie: The Game"])  # Tr
 print net
 print get_secondary_connections(net, "Mercedes")
 print count_common_connections(net, "Mercedes", "John")
-# print find_path_to_friend(net, "John", "Ollie")
+print find_path_to_friend(net, "John", "Ollie")
